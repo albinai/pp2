@@ -10,14 +10,14 @@ namespace Task3
     {
         static void Main(string[] args)
         {
-            int n = int.Parse(Console.ReadLine());
-            string s = Console.ReadLine();
-            string[] arr = s.Split();
+            int n = int.Parse(Console.ReadLine()); //вводим число n - количество элементов в массиве
+            string s = Console.ReadLine(); // вводим строку s
+            string[] arr = s.Split(); //разделяем строку на элементы массива
             for (int i = 0; i < n; i++)
             {
-               Console.Write(arr[i] + " " + arr[i] + " ");
+               Console.Write(arr[i] + " " + arr[i] + " "); //выводим каждый элемент дважды
             }
-            Console.ReadKey();
+            Console.ReadKey(); // консоль выключится после нажатия любой кнопки
         }
     }
 }
