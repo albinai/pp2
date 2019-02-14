@@ -20,27 +20,27 @@ namespace Task3
 
         static void Task(DirectoryInfo directory, int level)
         {
-            FileInfo[] files = directory.GetFiles();
-            DirectoryInfo[] dirs = directory.GetDirectories();
+            FileInfo[] files = directory.GetFiles(); //создаем массив из файлов
+            DirectoryInfo[] dirs = directory.GetDirectories(); //создаем массив из директорий
 
             foreach (FileInfo file in files)
             {
-                PrintSpaces(level);
-                Console.WriteLine(file.Name);
+                PrintSpaces(level); //вызываем функцию, которая определяет уровень
+                Console.WriteLine(file.Name); //выводим на экран файлы
             }
 
             foreach (DirectoryInfo dir in dirs) { 
-                    PrintSpaces(level);
-                    Console.WriteLine(dir.Name);
-                    Task(dir, level + 1);
+                    PrintSpaces(level); //вызываем функцию
+                    Console.WriteLine(dir.Name); //выводим на экран директории
+                    Task(dir, level + 1); //рекурсивно повторяем действия и добавляем уровень
                 }
             }
 
 
             static void Main(string[] args)
             {
-                DirectoryInfo dir = new DirectoryInfo("C:/Users/albin/Desktop/PP1");
-                Task(dir, 1);
+                DirectoryInfo dir = new DirectoryInfo("C:/Users/albin/Desktop/PP1"); 
+                Task(dir, 1); //вызываем функцию
                 Console.ReadKey();
             }
         }
