@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Task_1
+namespace Task1
 {
     class Manager
     {
@@ -50,9 +50,18 @@ namespace Task_1
             }
         }
 
-        public void Desktop() 
+        public void Interface() 
         {
             Console.BackgroundColor = ConsoleColor.Black;
+            string str = "Go back : Backspace // Delete: Del // Rename: F2 // Enter: Enter"; //подсказки для удобства
+            foreach (char c in str) 
+            {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            Console.WriteLine();
+            Console.WriteLine(str);
+            
             Console.Clear();
             dir = new DirectoryInfo(path);
             FileSystemInfo[] infos = dir.GetFileSystemInfos();
@@ -66,17 +75,10 @@ namespace Task_1
                 Console.WriteLine(infos[i].Name);
                 k++;
             }
-            string str = "Go back : Backspace // Delete: Del // Rename: F2 // Enter: Enter"; //подсказки для удобства
-            foreach (char c in str) 
-            {
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.Red;
-            }
-            Console.WriteLine();
-            Console.WriteLine(str);
+           
         }
 
-        public void CalcSz() 
+        public void C()
         {
             dir = new DirectoryInfo(path);
             FileSystemInfo[] infos = dir.GetFileSystemInfos();
@@ -88,104 +90,92 @@ namespace Task_1
 
         }
 
-        public void Up()//действия после нажатия клавиши вверх
-        {
-            index--;
-            if (index < 0)
-            {
-                index = --s;
-            }
-        }
-
-        public void Down() // действия после нажатия клавиши вниз
-        {
-            index++;
-            if (index == s)
-            {
-                index = 0;
-            }
-        }
-
-        public void Enter() //действия после нажатия enter
-        {
-            if (cur.GetType() == typeof(DirectoryInfo))
-            {
-                index = 0;
-                path = cur.FullName;
-            }
-            else
-            {
-                StreamReader sr = new StreamReader(cur.FullName);
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Clear();
-                Console.WriteLine(sr.ReadToEnd());
-                Console.ReadKey();
-            }
-        }
-
-        public void Delete() //метод для удаления папки или файла
-        {
-            if (cur.GetType() == typeof(DirectoryInfo))
-            {
-                index = 0;
-                Directory.Delete(cur.FullName);
-            }
-            else
-            {
-                index = 0;
-                File.Delete(cur.FullName);
-            }
-        }
-
-        public void F2() //действия после нажатия клавиши вниз
-        {
-            Console.Clear();
-            Console.WriteLine("Enter new name:");
-            string newname = Console.ReadLine();
-            Console.Clear();
-            string newpath = Path.Combine(dir.FullName, newname);
-            if (cur.GetType() == typeof(DirectoryInfo))
-            {
-                Directory.Move(cur.FullName, newpath);
-            }
-            else
-            {
-                File.Move(cur.FullName, newpath);
-            }
-        }
-
-        public void Backspace() //действия после нажатия Backspace
-        {
-            if (dir.Parent.FullName != @"С:\")
-            {
-                index = 0;
-                path = dir.Parent.FullName;
-                Console.Clear();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("NO WAY!");
-                Console.ReadKey();
-                Console.Clear();
-            }
-        }
+      
+       
 
         public void Start()
         {
             ConsoleKeyInfo consoleKey = Console.ReadKey();
             while (consoleKey.Key != ConsoleKey.Escape)
             {
-                CalcSz();
+                C();
                 Interface();
                 consoleKey = Console.ReadKey();
-                if (consoleKey.Key == ConsoleKey.UpArrow)    Up();
-                if (consoleKey.Key == ConsoleKey.DownArrow)  Down();
-                if (consoleKey.Key == ConsoleKey.Enter)      Enter();
-                if (consoleKey.Key == ConsoleKey.Backspace)  Backspace();
-                if (consoleKey.Key == ConsoleKey.Delete)     Delete();
-                if (consoleKey.Key == ConsoleKey.F2)         F2();
+                if (consoleKey.Key == ConsoleKey.UpArrow)
+                                        {
+                                            index--;
+                                            if (index < 0)
+                                            {
+                                                index = --s;
+                                            }
+                                        }
+                if (consoleKey.Key == ConsoleKey.DownArrow)
+                                    {
+                                        index++;
+                                        if (index == s)
+                                        {
+                                            index = 0;
+                                        }
+                                    }
+                if (consoleKey.Key == ConsoleKey.Enter)
+                {
+                                    if (cur.GetType() == typeof(DirectoryInfo))
+                                    {
+                                        index = 0;
+                                        path = cur.FullName;
+                                    }
+                                    else
+                                    {
+                                        StreamReader sr = new StreamReader(cur.FullName);
+                                        Console.BackgroundColor = ConsoleColor.Black;
+                                        Console.ForegroundColor = ConsoleColor.White;
+                                        Console.Clear();
+                                        Console.WriteLine(sr.ReadToEnd());
+                                        Console.ReadKey();
+                                    }
+                }
+                if (consoleKey.Key == ConsoleKey.Backspace)
+                                    {
+                                        if (dir.Parent.FullName != @"С:\")
+                                        {
+                                            index = 0;
+                                            path = dir.Parent.FullName;
+                                            Console.Clear();
+                                        }
+                                        else
+                                        {
+                                            Console.Clear();
+                                        }
+                                    }
+                if (consoleKey.Key == ConsoleKey.Delete)
+                                    {
+                                        if (cur.GetType() == typeof(DirectoryInfo))
+                                        {
+                                            index = 0;
+                                            Directory.Delete(cur.FullName);
+                                        }
+                                        else
+                                        {
+                                            index = 0;
+                                            File.Delete(cur.FullName);
+                                        }
+                                    }
+                if (consoleKey.Key == ConsoleKey.F2)
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("Enter new name:");
+                                    string newname = Console.ReadLine();
+                                    Console.Clear();
+                                    string newpath = Path.Combine(dir.FullName, newname);
+                                    if (cur.GetType() == typeof(DirectoryInfo))
+                                    {
+                                        Directory.Move(cur.FullName, newpath);
+                                    }
+                                    else
+                                    {
+                                        File.Move(cur.FullName, newpath);
+                                    }
+                }
             }
         }
 
