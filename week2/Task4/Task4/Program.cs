@@ -10,35 +10,36 @@ namespace Task4
     class Program
     {
 
-        public static void F()
+        public static void Delete(string from)
         {
-            string path = @"C:\Users\albin\Desktop\pp2\week2\Task4\path"; //оригинальная папка
-            string Newfile = "NEWF"; //имя файла
-
-            path = Path.Combine(path, Newfile); //объединяем две строки в путь
-
-            File.WriteAllText(path, "comms");
-
-            string path1 = @"C:\Users\albin\Desktop\pp2\week2\Task4\path1"; //вторая папка
-            string copyfile = Path.Combine(path1, Newfile); //создаем файл во второй папке
-
-            File.Copy(path, copyfile, true); //копируем файл из оригинального во второй
-
-            Delete(path); //вызываю функцию, чтобы удалить файл
-
-        }
-
-        public static void Delete(string path)
-        {
-            if (File.Exists(path))
+            if (File.Exists(from))
             {
-                File.Delete(path);//если файл существует - удаляем его
+                File.Delete(from);//если файл существует - удаляем его
             }
         }
 
         static void Main(string[] args)
         {
-            F(); //вызываем функцию
+            string path = @"C:\Users\albin\Desktop\pp2\week2\Task4\path"; //оригинальная папка
+            string Newfile = "NEWF"; //имя файла
+
+            string from = Path.Combine(path, Newfile); //объединяем две строки в путь к файлу
+
+            FileStream fs = File.Create(from); //создаем файл в потоке 
+            fs.Close();
+
+            string path1 = @"C:\Users\albin\Desktop\pp2\week2\Task4\path1"; //вторая папка
+            string to = Path.Combine(path1, Newfile); //создаем путь во второй папке
+
+            if (File.Exists(to)) //если файл уже существует - удаляем его т.к. программа не может копировать в существующий файл
+            {
+                Delete(to);
+            }
+
+            File.Copy(from, to); //копируем файл из оригинального во второй
+
+            Delete(from); //вызываю функцию, чтобы удалить файл
+
         }
     }
 }
